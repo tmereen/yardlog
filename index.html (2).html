@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YardLog">
+<title>YardLog</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{--forest:#0f1f0f;--bark:#2d1f12;--moss:#4a6741;--sage:#8fba80;--cream:#f0ead8;--amber:#d4892e;--al:#f0b050;--rust:#a84c2a;--white:#ffffff;--muted:#a09888;--teal:#2a7a7a;--tl:#5ad0d0;--pn:#4a6741;--pr:#e03020;--po:#f08020;--py:#e0b800;--pg:#28c060;--pb:#3090d0;--pp:#a050c8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
+.hdr{background:linear-gradient(160deg,var(--bark),var(--forest));padding:44px 16px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.07);}
+.hdr-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;}
+.logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--al);}
+.logo span{color:var(--sage);}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-top:1px;}
+.add-btn{width:34px;height:34px;border-radius:50%;background:var(--amber);border:none;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(201,125,46,0.4);flex-shrink:0;}
+.main-tabs{display:flex;gap:3px;}
+.mtab{flex:1;padding:7px 2px;border:none;border-radius:8px 8px 0 0;background:transparent;color:var(--muted);font-family:inherit;font-size:10px;font-weight:600;cursor:pointer;}
+.mtab.act{background:var(--forest);color:var(--al);}
+.mtab.act.ct{color:var(--tl);}
+.sub-tabs{display:flex;gap:4px;padding:6px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.stab{flex:1;padding:5px 4px;border:none;border-radius:6px 6px 0 0;background:transparent;color:var(--muted);font-family:inherit;font-size:10px;font-weight:500;cursor:pointer;}
+.stab.act{background:rgba(255,255,255,0.06);color:var(--cream);}
+.srch{padding:7px 16px 5px;}
+.srch input{width:100%;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--cream);font-family:inherit;font-size:13px;outline:none;}
+.srch input:focus{border-color:var(--amber);}
+.srch input::placeholder{color:var(--muted);}
+.content{padding:0 16px 80px;}
+.view{display:none;}.view.act{display:block;}
+.stats{display:flex;gap:6px;margin:6px 0;}
+.sbox{flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 4px;text-align:center;border:1px solid rgba(255,255,255,0.07);}
+.snum{font-family:'Playfair Display',serif;font-size:18px;color:var(--al);}
+.snum.tl{color:var(--tl);}
+.slbl{font-size:10px;color:#c0b8a8;margin-top:1px;}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;border-left:4px solid var(--pn);}
+.card.pn{border-left-color:var(--pn);}.card.pr{border-left-color:var(--pr);}.card.po{border-left-color:var(--po);}.card.py{border-left-color:var(--py);}.card.pg{border-left-color:var(--pg);}.card.pb{border-left-color:var(--pb);}.card.pp{border-left-color:var(--pp);}
+.crow{display:flex;justify-content:space-between;align-items:center;gap:6px;}
+.cname{font-weight:700;font-size:14px;color:#ffffff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cbadges{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+.bdue{font-size:9px;padding:2px 6px;border-radius:20px;font-weight:500;background:rgba(201,125,46,0.25);color:var(--al);}
+.bovd{font-size:9px;padding:2px 6px;border-radius:20px;font-weight:500;background:rgba(168,76,42,0.3);color:#e07a5a;}
+.pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cmeta{font-size:12px;color:#c0b8a8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cfoot{display:flex;justify-content:space-between;align-items:center;margin-top:5px;}
+.ncnt{font-size:11px;color:#c0b8a8;}
+.tags{display:flex;gap:3px;overflow:hidden;}
+.tag{font-size:9px;padding:1px 6px;border-radius:20px;background:rgba(122,158,110,0.2);color:var(--sage);font-weight:500;white-space:nowrap;}
+.tag.ct{background:rgba(42,122,122,0.2);color:var(--tl);}
+.day-grp{margin-bottom:20px;}
+.day-lbl{font-size:11px;color:var(--amber);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 0;border-bottom:1px solid rgba(201,125,46,0.2);margin-bottom:10px;}
+.tli{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 14px;margin-bottom:8px;cursor:pointer;}
+.ti-row{display:flex;justify-content:space-between;align-items:center;}
+.ti-name{font-weight:600;font-size:14px;color:var(--white);}
+.ti-ref{font-size:11px;color:var(--muted);}
+.ti-type{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:10px;margin-top:4px;display:inline-block;}
+.tn{background:rgba(74,103,65,0.25);color:var(--sage);}
+.tf{background:rgba(201,125,46,0.2);color:var(--al);}
+.tq{background:rgba(100,80,60,0.35);color:#c8a87a;}
+.to{background:rgba(42,122,122,0.25);color:var(--tl);}
+.ti-txt{font-size:13px;color:#d8d0c0;margin-top:6px;line-height:1.4;}
+.bkc{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;}
+.bkr{display:flex;justify-content:space-between;align-items:flex-start;}
+.bkref{font-family:'Playfair Display',serif;font-size:17px;color:var(--al);}
+.bkbadge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;background:rgba(74,103,65,0.3);color:var(--sage);text-transform:uppercase;white-space:nowrap;}
+.bksub{font-size:13px;color:var(--muted);margin-top:4px;}
+.bknote{font-size:12px;color:rgba(245,240,232,0.7);margin-top:6px;line-height:1.5;}
+.ov{position:fixed;inset:0;background:rgba(10,18,10,0.88);z-index:200;display:none;align-items:flex-end;backdrop-filter:blur(4px);}
+.ov.open{display:flex;}
+.modal{width:100%;max-width:430px;margin:0 auto;background:#1e2e1e;border-radius:22px 22px 0 0;padding:0 0 40px;max-height:92vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(0,0,0,0.5);position:relative;animation:up .25s ease;}
+@keyframes up{from{transform:translateY(60px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.mhandle{width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:14px auto 18px;}
+.mtitle{font-family:'Playfair Display',serif;font-size:20px;color:var(--al);padding:0 20px;margin-bottom:18px;}
+.mclose{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;}
+.fg{padding:0 20px;margin-bottom:14px;}
+.fl{font-size:12px;color:#c0b8a8;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;}
+.fi,.fs,.fta{width:100%;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:var(--cream);font-family:inherit;font-size:15px;outline:none;appearance:none;}
+.fi:focus,.fs:focus,.fta:focus{border-color:var(--amber);}
+.fta{min-height:90px;resize:none;line-height:1.5;}
+.fs option{background:#1e2e1e;}
+.pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{padding:7px 12px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;}
+.pill.sel{background:var(--amber);border-color:var(--amber);color:white;}
+.sbtn{width:calc(100% - 40px);margin:18px 20px 0;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--amber),var(--al));color:white;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;display:block;}
+.sbtn.tl{background:linear-gradient(135deg,var(--teal),var(--tl));}
+.dbtn{width:calc(100% - 40px);margin:10px 20px 0;padding:13px;border-radius:12px;border:1px solid rgba(168,76,42,0.4);background:rgba(168,76,42,0.1);color:#e07a5a;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;display:block;}
+.confirm-row{display:flex;gap:8px;margin:10px 20px 0;}
+.confirm-row button{flex:1;padding:13px;border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;}
+.confirm-row .yes{border:none;background:rgba(168,76,42,0.5);color:#e07a5a;}
+.confirm-row .no{border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--muted);}
+.pri-picker{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.psw{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;flex-shrink:0;}
+.psw.sel{border-color:white;transform:scale(1.15);}
+.plbl{font-size:12px;color:var(--muted);margin-top:6px;}
+.hdiv{border:none;border-top:1px solid rgba(255,255,255,0.07);margin:6px 20px 14px;}
+.det-hdr{padding:0 20px 16px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.det-name{font-family:'Playfair Display',serif;font-size:22px;color:var(--white);display:flex;align-items:center;gap:10px;}
+.ddot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.det-meta{font-size:13px;color:#c0b8a8;margin-top:4px;}
+.det-acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.abtn{flex:1;min-width:70px;padding:10px 6px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--cream);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;text-align:center;white-space:nowrap;}
+.abtn.pri{background:var(--amber);border-color:var(--amber);}
+.nsec{padding:14px 20px;}
+.ntitle{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.ni{background:rgba(255,255,255,0.07);border-radius:10px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--moss);}
+.ni.f{border-left-color:var(--amber);}.ni.q{border-left-color:#c8a87a;}.ni.o{border-left-color:var(--tl);}
+.nhdr{display:flex;justify-content:space-between;margin-bottom:5px;align-items:center;}
+.ntlbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#c0b8a8;}
+.ndt{font-size:12px;color:#c0b8a8;}
+.nbody{font-size:14px;color:#f0ead8;line-height:1.55;}
+.nfu{font-size:11px;color:var(--al);margin-top:5px;}
+.nacts{display:flex;gap:8px;margin-top:8px;justify-content:flex-end;}
+.nedit,.ndel{font-size:11px;padding:4px 10px;border-radius:8px;background:transparent;cursor:pointer;font-family:inherit;}
+.nedit{border:1px solid rgba(255,255,255,0.15);color:var(--muted);}
+.ndel{border:1px solid rgba(168,76,42,0.3);color:#e07a5a;}
+.qov{position:fixed;inset:0;z-index:140;display:none;}.qov.open{display:block;}
+.qmenu{position:fixed;bottom:80px;right:20px;z-index:150;display:none;flex-direction:column;gap:8px;align-items:flex-end;}
+.qmenu.open{display:flex;}
+.qi{background:#2a3a2a;border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 16px;color:var(--cream);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,0.3);font-family:inherit;}
+.empty{text-align:center;padding:50px 20px;color:var(--muted);}
+.eicon{font-size:40px;margin-bottom:12px;}
+.etxt{font-size:14px;line-height:1.5;}
+.bk-new-btn{width:100%;padding:14px;border-radius:12px;border:1px dashed rgba(201,125,46,0.4);background:rgba(201,125,46,0.07);color:var(--al);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:14px;}
+
+/* Offline banner */
+.offline-note{background:rgba(42,122,122,0.15);border:1px solid rgba(90,208,208,0.2);border-radius:10px;padding:10px 14px;margin:8px 0 4px;font-size:12px;color:var(--tl);text-align:center;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div><div class="logo">Yard<span>Log</span></div><div class="logo-sub">Supplier &amp; Customer Activity</div></div>
+    <button class="add-btn" onclick="toggleQ()">+</button>
+  </div>
+  <div class="main-tabs">
+    <button class="mtab act" id="mt-suppliers" onclick="switchMain('suppliers',this)">🌲 Suppliers</button>
+    <button class="mtab ct" id="mt-customers" onclick="switchMain('customers',this)">🤝 Customers</button>
+    <button class="mtab" id="mt-timeline" onclick="switchMain('timeline',this)">📋 Timeline</button>
+    <button class="mtab" id="mt-bookings" onclick="switchMain('bookings',this)">📦 Bookings</button>
+  </div>
+  <div class="sub-tabs" id="subTabs">
+    <button class="stab act" onclick="switchSub('all',this)">All</button>
+    <button class="stab" onclick="switchSub('due',this)">Follow-ups</button>
+    <button class="stab" onclick="switchSub('priority',this)">Priority</button>
+  </div>
+</div>
+
+<div class="srch"><input type="search" placeholder="Search…" oninput="filterQ(this.value)"></div>
+
+<div class="content">
+  <div class="stats">
+    <div class="sbox"><div class="snum" id="stA">0</div><div class="slbl">Suppliers</div></div>
+    <div class="sbox"><div class="snum tl" id="stB">0</div><div class="slbl">Customers</div></div>
+    <div class="sbox"><div class="snum" id="stC">0</div><div class="slbl">Notes</div></div>
+    <div class="sbox"><div class="snum" id="stD">0</div><div class="slbl">Follow-ups</div></div>
+  </div>
+  <div class="view act" id="view-suppliers"><div id="supList"></div></div>
+  <div class="view" id="view-customers"><div id="custList"></div></div>
+  <div class="view" id="view-timeline"><div id="tlList"></div></div>
+  <div class="view" id="view-bookings"><div id="bkList"></div></div>
+</div>
+
+<!-- Quick menu overlay -->
+<div class="qov" id="qOv" onclick="closeQ()"></div>
+<div class="qmenu" id="qMenu">
+  <div class="qi" onclick="closeQ();openNoteModal(null,'supplier')">📝 Note for Supplier</div>
+  <div class="qi" onclick="closeQ();openNoteModal(null,'customer')">📝 Note for Customer</div>
+  <div class="qi" onclick="closeQ();openEntityModal('supplier')">🌲 New Supplier</div>
+  <div class="qi" onclick="closeQ();openEntityModal('customer')">🤝 New Customer</div>
+  <div class="qi" onclick="closeQ();openBookingModal()">📦 New Booking</div>
+  <div class="qi" onclick="closeQ();openModal('backupModal')">💾 Backup / Restore</div>
+</div>
+
+<!-- Note Modal -->
+<div class="ov" id="noteModal">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('noteModal')">×</button>
+    <div class="mhandle"></div>
+    <div class="mtitle" id="nmTitle">New Activity</div>
+    <input type="hidden" id="nmEditId">
+    <input type="hidden" id="nmEType">
+    <div class="fg">
+      <label class="fl">Supplier or Customer?</label>
+      <select class="fs" id="nmETypeSelect" onchange="setNmETypeFromSelect(this.value)">
+        <option value="supplier">🌲 Supplier</option>
+        <option value="customer">🤝 Customer</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl" id="nmELabel">Supplier</label>
+      <select class="fs" id="nmEId"></select>
+    </div>
+    <div class="fg">
+      <label class="fl">Activity Type</label>
+      <div class="pills">
+        <button class="pill sel" onclick="setNmType(this,'note')">📝 Note</button>
+        <button class="pill" onclick="setNmType(this,'followup')">🔔 Follow-up</button>
+        <button class="pill" onclick="setNmType(this,'quote')">💰 Quote</button>
+        <button class="pill" onclick="setNmType(this,'loads')">🌲 Loads Available</button>
+      </div>
+    </div>
+    <div class="fg" id="nmBkGrp" style="display:none">
+      <label class="fl">Booking / PO Reference</label>
+      <input class="fi" id="nmBkRef" placeholder="e.g. BK-2025-042">
+    </div>
+    <div class="fg">
+      <label class="fl">Note / Details</label>
+      <textarea class="fta" id="nmText" placeholder="What was discussed, agreed, or observed…"></textarea>
+    </div>
+    <div class="fg" id="nmFuGrp" style="display:none">
+      <label class="fl">Follow-up Date</label>
+      <input class="fi" type="date" id="nmFuDate">
+    </div>
+    <div class="fg">
+      <label class="fl">Species (optional)</label>
+      <input class="fi" id="nmSpecies" placeholder="e.g. Red Oak, Walnut">
+    </div>
+    <button class="sbtn" id="nmSaveBtn" onclick="saveNote()">Save Activity</button>
+  </div>
+</div>
+
+<!-- Entity Modal -->
+<div class="ov" id="entityModal">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('entityModal')">×</button>
+    <div class="mhandle"></div>
+    <div class="mtitle" id="emTitle">New Supplier</div>
+    <input type="hidden" id="emEditId">
+    <input type="hidden" id="emEType">
+    <div class="fg"><label class="fl">Company Name</label><input class="fi" id="emName" placeholder="Company name"></div>
+    <div class="fg"><label class="fl">Contact Name</label><input class="fi" id="emContact" placeholder="Primary contact"></div>
+    <div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" id="emPhone" placeholder="(555) 000-0000"></div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="emEmail" placeholder="email@company.com"></div>
+    <div class="fg"><label class="fl">Location / Region</label><input class="fi" id="emLocation" placeholder="e.g. Central PA"></div>
+    <div class="fg"><label class="fl" id="emSpLbl">Primary Species</label><input class="fi" id="emSpecies" placeholder="e.g. Red Oak, White Oak"></div>
+    <div class="fg"><label class="fl">Notes</label><input class="fi" id="emNotes" placeholder="Any additional info"></div>
+    <hr class="hdiv">
+    <div class="fg">
+      <label class="fl">Priority Color</label>
+      <div class="pri-picker">
+        <div class="psw sel" data-p="none" style="background:var(--pn)" onclick="selPri(this)"></div>
+        <div class="psw" data-p="red" style="background:var(--pr)" onclick="selPri(this)"></div>
+        <div class="psw" data-p="orange" style="background:var(--po)" onclick="selPri(this)"></div>
+        <div class="psw" data-p="yellow" style="background:var(--py)" onclick="selPri(this)"></div>
+        <div class="psw" data-p="green" style="background:var(--pg)" onclick="selPri(this)"></div>
+        <div class="psw" data-p="blue" style="background:var(--pb)" onclick="selPri(this)"></div>
+        <div class="psw" data-p="purple" style="background:var(--pp)" onclick="selPri(this)"></div>
+      </div>
+      <div class="plbl" id="priLbl">None (default)</div>
+    </div>
+    <button class="sbtn" id="emSaveBtn" onclick="saveEntity()">Add Supplier</button>
+    <div id="emDelWrap"></div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="ov" id="bookingModal">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('bookingModal')">×</button>
+    <div class="mhandle"></div>
+    <div class="mtitle" id="bmTitle">New Booking</div>
+    <input type="hidden" id="bmEditId">
+    <div class="fg"><label class="fl">Booking Reference #</label><input class="fi" id="bmRef" placeholder="e.g. BK-2025-042"></div>
+    <div class="fg"><label class="fl">Customer / Buyer</label><input class="fi" id="bmCustomer" placeholder="e.g. Shanghai Hardwood Imports"></div>
+    <div class="fg"><label class="fl">Species</label><input class="fi" id="bmSpecies" placeholder="e.g. Red Oak, White Oak"></div>
+    <div class="fg"><label class="fl">Vessel Name</label><input class="fi" id="bmVessel" placeholder="e.g. MSC Allegra"></div>
+    <div class="fg"><label class="fl">Steamship Line (SSL)</label><input class="fi" id="bmSSL" placeholder="e.g. MSC, Maersk, COSCO"></div>
+    <div class="fg"><label class="fl">Voyage Number</label><input class="fi" id="bmVoyage" placeholder="e.g. 025W"></div>
+    <div class="fg"><label class="fl">ETD (Estimated Departure)</label><input class="fi" type="date" id="bmEtd"></div>
+    <div class="fg"><label class="fl">Port Cutoff Date</label><input class="fi" type="date" id="bmCutoff"></div>
+    <div class="fg"><label class="fl">Number of Containers</label><input class="fi" id="bmContainers" placeholder="e.g. 2x40HC"></div>
+    <div class="fg"><label class="fl">Port of Loading</label><input class="fi" id="bmPol" placeholder="e.g. Baltimore, MD"></div>
+    <div class="fg"><label class="fl">Port of Discharge</label><input class="fi" id="bmPod" placeholder="e.g. Shanghai, China"></div>
+    <div class="fg"><label class="fl">Notes / Details</label><textarea class="fta" id="bmNotes" placeholder="Paste booking confirmation details, special instructions, container numbers, seal numbers, or any other notes here…" style="min-height:130px"></textarea></div>
+    <div class="fg"><label class="fl">Status</label>
+      <select class="fs" id="bmStatus">
+        <option value="new">🆕 New</option>
+        <option value="inprogress">🔄 In Progress</option>
+        <option value="complete">✅ Complete</option>
+      </select>
+    </div>
+    <button class="sbtn" onclick="saveBooking()">Save Booking</button>
+    <div id="bmDelWrap" style="margin-top:4px"></div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="ov" id="detailModal">
+  <div class="modal" style="background:#192619">
+    <button class="mclose" onclick="closeModal('detailModal')">×</button>
+    <div class="mhandle"></div>
+    <div class="det-hdr" id="detHdr"></div>
+    <div class="nsec" id="detNotes"></div>
+  </div>
+</div>
+
+<!-- Backup Modal -->
+<div class="ov" id="backupModal">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('backupModal')">×</button>
+    <div class="mhandle"></div>
+    <div class="mtitle">💾 Backup &amp; Restore</div>
+    <div class="fg" style="color:var(--cream);font-size:13px;line-height:1.6">
+      <p style="margin-bottom:8px">Your data saves automatically on this device. Use backup to protect your data or move it to a new device.</p>
+      <div class="offline-note">📱 This app works 100% offline — no internet needed. All data stays on your device.</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Export — Save your data</label>
+      <button class="sbtn" onclick="exportBackup()">⬇️ Download Backup File</button>
+    </div>
+    <div class="fg" style="margin-top:8px">
+      <label class="fl">Import — Restore from backup</label>
+      <button class="sbtn" style="background:linear-gradient(135deg,var(--teal),var(--tl))" onclick="importBackup()">⬆️ Load Backup File</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+      <div id="importStatus" style="font-size:12px;color:var(--sage);margin-top:8px;padding:0 0"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PC={none:"#4a6741",red:"#c0392b",orange:"#e67e22",yellow:"#d4a017",green:"#27ae60",blue:"#2980b9",purple:"#8e44ad"};
+const PL={none:"None (default)",red:"🔴 Hot / Urgent",orange:"🟠 High Priority",yellow:"🟡 Watch / Caution",green:"🟢 Active / Good Standing",blue:"🔵 New / Prospect",purple:"🟣 VIP / Key Account"};
+const TL={note:{cls:"tn",lbl:"📝 Note"},followup:{cls:"tf",lbl:"🔔 Follow-up"},quote:{cls:"tq",lbl:"💰 Quote"},loads:{cls:"to",lbl:"🌲 Loads Available"},order:{cls:"to",lbl:"🌲 Loads Available"}};
+
+let db=JSON.parse(localStorage.getItem("ylv3")||"null")||{suppliers:[],customers:[],bookings:[],notes:[]};
+if(!db.bookings)db.bookings=[];
+
+let curMain="suppliers",curSub="all",curQ="",selPriority="none",curNmType="note",curNmEType="supplier";
+
+function save(){localStorage.setItem("ylv3",JSON.stringify(db));}
+function findE(id,type){return(type==="customer"?db.customers:db.suppliers).find(e=>e.id===id);}
+function today(){return new Date().toISOString().slice(0,10);}
+function fuStatus(eId){
+  const t=today(),ns=db.notes.filter(n=>n.eId===eId&&n.fuDate);
+  if(!ns.length)return null;
+  if(ns.some(n=>n.fuDate<t))return"overdue";
+  if(ns.some(n=>n.fuDate>=t))return"due";
+  return null;
+}
+function fmtDate(iso){
+  const d=new Date(iso+"T12:00:00"),td=new Date();td.setHours(12,0,0,0);
+  const yd=new Date(td);yd.setDate(td.getDate()-1);
+  if(d.toDateString()===td.toDateString())return"Today";
+  if(d.toDateString()===yd.toDateString())return"Yesterday";
+  return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+}
+
+function render(){
+  updateStats();
+  if(curMain==="suppliers")renderList("supplier");
+  else if(curMain==="customers")renderList("customer");
+  else if(curMain==="timeline")renderTimeline();
+  else renderBookings();
+}
+
+function updateStats(){
+  const t=today();
+  document.getElementById("stA").textContent=db.suppliers.length;
+  document.getElementById("stB").textContent=db.customers.length;
+  document.getElementById("stC").textContent=db.notes.length;
+  document.getElementById("stD").textContent=db.notes.filter(n=>n.fuDate&&n.fuDate>=t).length;
+}
+
+function getLastNoteDate(eId){
+  const ns=db.notes.filter(n=>n.eId===eId);
+  if(!ns.length)return"0";
+  return ns.map(n=>n.date).sort().reverse()[0];
+}
+
+function renderList(type){
+  const el=document.getElementById(type==="supplier"?"supList":"custList");
+  let arr=type==="supplier"?[...db.suppliers]:[...db.customers];
+  if(curSub==="due")arr=arr.filter(e=>fuStatus(e.id));
+  else if(curSub==="priority")arr=arr.filter(e=>e.priority&&e.priority!=="none");
+  arr.sort((a,b)=>(getLastNoteDate(b.id)||b.added||"0").localeCompare(getLastNoteDate(a.id)||a.added||"0"));
+  if(curQ){const lq=curQ.toLowerCase();arr=arr.filter(e=>e.name.toLowerCase().includes(lq)||(e.species||"").toLowerCase().includes(lq)||e.contact.toLowerCase().includes(lq)||(e.location||"").toLowerCase().includes(lq));}
+  if(!arr.length){el.innerHTML=`<div class="empty"><div class="eicon">${type==="supplier"?"🌲":"🤝"}</div><div class="etxt">No ${type}s yet.<br>Tap + to add one.</div></div>`;return;}
+  const isCust=type==="customer";
+  el.innerHTML=arr.map(e=>{
+    const ns=db.notes.filter(n=>n.eId===e.id);
+    const fu=fuStatus(e.id);
+    const pri=e.priority||"none";
+    const tags=(e.species||"").split(",").filter(Boolean).slice(0,3).map(t=>`<span class="tag${isCust?" ct":""}">${t.trim()}</span>`).join("");
+    return`<div class="card p${pri}" onclick="openDetail('${e.id}','${type}')">
+      <div class="crow"><div class="cname">${e.name}</div><div class="cbadges">${fu==="overdue"?'<span class="bovd">OVERDUE</span>':fu==="due"?'<span class="bdue">FOLLOW-UP</span>':""}<div class="pdot" style="background:${PC[pri]}"></div></div></div>
+      <div class="cmeta">${e.contact}${e.location?" · "+e.location:""}</div>
+      <div class="cfoot"><div class="ncnt">${ns.length} note${ns.length!==1?"s":""}</div><div class="tags">${tags}</div></div>
+    </div>`;
+  }).join("");
+}
+
+function renderTimeline(){
+  const el=document.getElementById("tlList");
+  let ns=[...db.notes].sort((a,b)=>b.date.localeCompare(a.date));
+  if(curQ){const lq=curQ.toLowerCase();ns=ns.filter(n=>{const e=findE(n.eId,n.eType);return n.text.toLowerCase().includes(lq)||(e&&e.name.toLowerCase().includes(lq))||(n.species||"").toLowerCase().includes(lq);});}
+  if(!ns.length){el.innerHTML=`<div class="empty"><div class="eicon">📋</div><div class="etxt">No activity yet.</div></div>`;return;}
+  const grps={};ns.forEach(n=>{const d=fmtDate(n.date);if(!grps[d])grps[d]=[];grps[d].push(n);});
+  el.innerHTML=Object.entries(grps).map(([day,items])=>
+    `<div class="day-grp"><div class="day-lbl">${day}</div>`+
+    items.map(n=>{
+      const e=findE(n.eId,n.eType);const t=TL[n.type]||TL.note;
+      return`<div class="tli" onclick="openDetail('${n.eId}','${n.eType}')">
+        <div class="ti-row"><span class="ti-name">${e?e.name:"?"}</span><span class="ti-ref">${n.bkRef||""}</span></div>
+        <span class="ti-type ${t.cls}">${t.lbl}</span>
+        <div class="ti-txt">${n.text.slice(0,100)}${n.text.length>100?"…":""}</div>
+        ${n.fuDate?`<div style="font-size:11px;color:var(--al);margin-top:5px;">📅 ${n.fuDate}</div>`:""}
+      </div>`;
+    }).join("")+"</div>"
+  ).join("");
+}
+
+function renderBookings(){
+  const el=document.getElementById("bkList");
+  let bks=[...db.bookings].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  if(curQ){const lq=curQ.toLowerCase();bks=bks.filter(b=>(b.ref||"").toLowerCase().includes(lq)||(b.customer||"").toLowerCase().includes(lq)||(b.species||"").toLowerCase().includes(lq)||(b.notes||"").toLowerCase().includes(lq)||(b.vessel||"").toLowerCase().includes(lq));}
+  const addBtn=`<button class="bk-new-btn" onclick="openBookingModal()">📦 + New Booking</button>`;
+  if(!bks.length){el.innerHTML=addBtn+`<div class="empty"><div class="eicon">📦</div><div class="etxt">No bookings yet.<br><br>Tap above to add one.</div></div>`;return;}
+  el.innerHTML=addBtn+bks.map(b=>{
+    const sc=b.status==="complete"?"var(--pg)":b.status==="inprogress"?"var(--po)":"var(--pb)";
+    const sl=b.status==="complete"?"✅ Complete":b.status==="inprogress"?"🔄 In Progress":"🆕 New";
+    return`<div class="bkc" onclick="openBookingDetail('${b.id}')">
+      <div class="bkr"><div class="bkref">${b.ref||"No Ref"}</div><span class="bkbadge" style="color:${sc}">${sl}</span></div>
+      ${b.customer?`<div class="bksub" style="margin-top:5px">🤝 ${b.customer}</div>`:""}
+      ${b.species?`<div class="bksub" style="color:var(--sage)">🌲 ${b.species}</div>`:""}
+      ${b.vessel?`<div class="bksub">🚢 ${b.vessel}${b.ssl?" · "+b.ssl:""}${b.voyage?" · Voy "+b.voyage:""}</div>`:""}
+      ${b.etd?`<div class="bksub">📅 ETD: ${b.etd}${b.cutoff?" · Cutoff: "+b.cutoff:""}</div>`:""}
+      ${b.pol||b.pod?`<div class="bksub">${b.pol||""}${b.pol&&b.pod?" → ":""}${b.pod||""}</div>`:""}
+      ${b.notes?`<div class="bknote">${b.notes.slice(0,120)}${b.notes.length>120?"…":""}</div>`:""}
+      <div style="font-size:11px;color:var(--muted);margin-top:6px">${b.date||""}</div>
+    </div>`;
+  }).join("");
+}
+
+function openBookingModal(bkId){
+  const b=bkId?(db.bookings||[]).find(x=>x.id===bkId):null;
+  document.getElementById("bmEditId").value=bkId||"";
+  document.getElementById("bmTitle").textContent=b?"Edit Booking":"New Booking";
+  document.getElementById("bmRef").value=b?b.ref||"":"";
+  document.getElementById("bmCustomer").value=b?b.customer||"":"";
+  document.getElementById("bmSpecies").value=b?b.species||"":"";
+  document.getElementById("bmVessel").value=b?b.vessel||"":"";
+  document.getElementById("bmSSL").value=b?b.ssl||"":"";
+  document.getElementById("bmVoyage").value=b?b.voyage||"":"";
+  document.getElementById("bmEtd").value=b?b.etd||"":"";
+  document.getElementById("bmCutoff").value=b?b.cutoff||"":"";
+  document.getElementById("bmContainers").value=b?b.containers||"":"";
+  document.getElementById("bmPol").value=b?b.pol||"":"";
+  document.getElementById("bmPod").value=b?b.pod||"":"";
+  document.getElementById("bmNotes").value=b?b.notes||"":"";
+  document.getElementById("bmStatus").value=b?b.status||"new":"new";
+  document.getElementById("bmDelWrap").innerHTML=bkId?`<button class="dbtn" onclick="confirmDeleteBooking('${bkId}')">🗑 Delete This Booking</button>`:"";
+  openModal("bookingModal");
+}
+
+function confirmDeleteBooking(bkId){
+  document.getElementById("bmDelWrap").innerHTML=`<div class="confirm-row"><button class="yes" onclick="doDeleteBooking('${bkId}')">⚠️ Yes, Delete</button><button class="no" onclick="openBookingModal('${bkId}')">Cancel</button></div>`;
+}
+function doDeleteBooking(bkId){db.bookings=db.bookings.filter(b=>b.id!==bkId);save();closeModal("bookingModal");render();}
+
+function saveBooking(){
+  const ref=document.getElementById("bmRef").value.trim();
+  if(!ref){alert("Please enter a Booking Reference number.");return;}
+  const editId=document.getElementById("bmEditId").value;
+  const data={ref,customer:document.getElementById("bmCustomer").value.trim(),species:document.getElementById("bmSpecies").value.trim(),vessel:document.getElementById("bmVessel").value.trim(),ssl:document.getElementById("bmSSL").value.trim(),voyage:document.getElementById("bmVoyage").value.trim(),etd:document.getElementById("bmEtd").value,cutoff:document.getElementById("bmCutoff").value,containers:document.getElementById("bmContainers").value.trim(),pol:document.getElementById("bmPol").value.trim(),pod:document.getElementById("bmPod").value.trim(),notes:document.getElementById("bmNotes").value.trim(),status:document.getElementById("bmStatus").value};
+  if(editId){const i=db.bookings.findIndex(b=>b.id===editId);if(i>-1)db.bookings[i]={...db.bookings[i],...data};}
+  else{data.date=today();db.bookings.push({id:"b"+Date.now(),...data});}
+  save();closeModal("bookingModal");render();
+}
+
+function openBookingDetail(bkId){
+  const b=(db.bookings||[]).find(x=>x.id===bkId);if(!b)return;
+  const sc=b.status==="complete"?"var(--pg)":b.status==="inprogress"?"var(--po)":"var(--pb)";
+  const sl=b.status==="complete"?"✅ Complete":b.status==="inprogress"?"🔄 In Progress":"🆕 New";
+  document.getElementById("detHdr").innerHTML=`
+    <div class="det-name" style="font-size:20px;flex-direction:column;align-items:flex-start;gap:4px"><span>${b.ref}</span><span style="font-size:13px;color:${sc};font-family:'DM Sans',sans-serif;font-weight:500">${sl}</span></div>
+    ${b.customer?`<div class="det-meta" style="margin-top:8px">🤝 ${b.customer}</div>`:""}
+    ${b.species?`<div class="det-meta" style="color:var(--sage)">🌲 ${b.species}</div>`:""}
+    ${b.containers?`<div class="det-meta">📦 ${b.containers}</div>`:""}
+    ${b.vessel?`<div class="det-meta">🚢 ${b.vessel}${b.ssl?" · "+b.ssl:""}${b.voyage?" · Voyage "+b.voyage:""}</div>`:""}
+    ${b.etd?`<div class="det-meta">📅 ETD: ${b.etd}${b.cutoff?" &nbsp;|&nbsp; ✂️ Cutoff: "+b.cutoff:""}</div>`:""}
+    ${b.pol||b.pod?`<div class="det-meta">🗺 ${b.pol||"—"} → ${b.pod||"—"}</div>`:""}
+    ${b.notes?`<div style="margin-top:10px;font-size:13px;color:var(--cream);line-height:1.6;background:rgba(255,255,255,0.05);border-radius:10px;padding:12px 14px">${b.notes.replace(/\n/g,"<br>")}</div>`:""}
+    <div class="det-acts" style="margin-top:14px"><button class="abtn pri" onclick="closeModal('detailModal');openBookingModal('${b.id}')">✏️ Edit Booking</button></div>`;
+  document.getElementById("detNotes").innerHTML="";
+  openModal("detailModal");
+}
+
+function openDetail(eId,eType){
+  const e=findE(eId,eType);if(!e)return;
+  const ns=db.notes.filter(n=>n.eId===eId).sort((a,b)=>b.date.localeCompare(a.date));
+  const pri=e.priority||"none";const isCust=eType==="customer";
+  document.getElementById("detHdr").innerHTML=`
+    <div class="det-name"><div class="ddot" style="background:${PC[pri]}"></div>${e.name}</div>
+    <div class="det-meta">${e.contact||""}${e.phone?" · "+e.phone:""}${e.email?" · "+e.email:""}</div>
+    ${e.location?`<div class="det-meta">${e.location}</div>`:""}
+    ${e.species?`<div class="det-meta" style="color:${isCust?"var(--tl)":"var(--sage)"};margin-top:3px">${e.species}</div>`:""}
+    ${e.notes?`<div class="det-meta" style="font-style:italic;margin-top:3px">${e.notes}</div>`:""}
+    <div class="det-acts">
+      <button class="abtn pri" onclick="closeModal('detailModal');openNoteModal('${eId}','${eType}')">+ Note</button>
+      <button class="abtn" onclick="closeModal('detailModal');openEntityModal('${eType}','${eId}')">✏️ Edit</button>
+      ${e.phone?`<button class="abtn" onclick="window.location='tel:${e.phone}'">📞 Call</button>`:""}
+      ${e.phone?`<button class="abtn" onclick="window.location='sms:${e.phone}'">💬 Text</button>`:""}
+      ${e.email?`<button class="abtn" onclick="window.location='mailto:${e.email}'">📧 Email</button>`:""}
+    </div>`;
+  document.getElementById("detNotes").innerHTML=`<div class="ntitle">${ns.length} Activit${ns.length!==1?"ies":"y"}</div>`+
+    (ns.length===0?'<div style="color:var(--muted);font-size:13px">No notes yet.</div>':
+    ns.map(n=>{
+      const t=TL[n.type]||TL.note;
+      const cls=n.type==="followup"?"f":n.type==="quote"?"q":n.type==="order"?"o":"";
+      return`<div class="ni ${cls}">
+        <div class="nhdr"><span class="ntlbl">${t.lbl}${n.bkRef?" · "+n.bkRef:""}</span><span class="ndt">${n.date}</span></div>
+        <div class="nbody">${n.text}</div>
+        ${n.fuDate?`<div class="nfu">📅 Follow-up: ${n.fuDate}</div>`:""}
+        ${n.species?`<div style="font-size:11px;color:var(--sage);margin-top:4px">${n.species}</div>`:""}
+        <div class="nacts">
+          <button class="nedit" onclick="editNote('${n.id}')">✏️ Edit</button>
+          ${e.phone?`<button class="nedit" onclick="sendNoteText('${n.id}','${eId}','${eType}')">💬 Text</button>`:""}
+          ${e.email?`<button class="nedit" onclick="sendNoteEmail('${n.id}','${eId}','${eType}')">📧 Email</button>`:""}
+          <button class="ndel" onclick="deleteNote('${n.id}','${eId}','${eType}')">🗑 Delete</button>
+        </div>
+      </div>`;
+    }).join(""));
+  openModal("detailModal");
+}
+
+function deleteNote(nid,eId,eType){db.notes=db.notes.filter(n=>n.id!==nid);save();closeModal("detailModal");render();setTimeout(()=>openDetail(eId,eType),120);}
+
+function editNote(nid){
+  const n=db.notes.find(x=>x.id===nid);if(!n)return;
+  closeModal("detailModal");
+  openNoteModal(n.eId,n.eType);
+  document.getElementById("nmEditId").value=nid;
+  document.getElementById("nmTitle").textContent="Edit Activity";
+  document.getElementById("nmSaveBtn").textContent="Save Changes";
+  document.getElementById("nmText").value=n.text;
+  document.getElementById("nmSpecies").value=n.species||"";
+  document.getElementById("nmBkRef").value=n.bkRef||"";
+  document.getElementById("nmFuDate").value=n.fuDate||"";
+  document.getElementById("nmETypeSelect").value=n.eType;
+  curNmType=n.type==="order"?"loads":n.type;
+  document.querySelectorAll("#noteModal .pills .pill").forEach(p=>{
+    const t=p.textContent.includes("Note")?"note":p.textContent.includes("Follow")?"followup":p.textContent.includes("Quote")?"quote":"loads";
+    p.classList.toggle("sel",t===curNmType);
+  });
+  document.getElementById("nmFuGrp").style.display=n.type==="followup"?"block":"none";
+  document.getElementById("nmBkGrp").style.display=["quote","followup","loads","order"].includes(n.type)?"block":"none";
+}
+
+function openNoteModal(eId,eType){
+  curNmEType=eType||"supplier";curNmType="note";
+  document.getElementById("nmEditId").value="";
+  document.getElementById("nmTitle").textContent="New Activity";
+  document.getElementById("nmSaveBtn").textContent="Save Activity";
+  document.getElementById("nmText").value="";
+  document.getElementById("nmSpecies").value="";
+  document.getElementById("nmBkRef").value="";
+  document.getElementById("nmFuDate").value="";
+  document.getElementById("nmFuGrp").style.display="none";
+  document.getElementById("nmBkGrp").style.display="none";
+  document.getElementById("nmETypeSelect").value=curNmEType;
+  document.querySelectorAll("#noteModal .pills .pill").forEach((p,j)=>p.classList.toggle("sel",j===0));
+  popEntityDrop(curNmEType);
+  if(eId)document.getElementById("nmEId").value=eId;
+  openModal("noteModal");
+}
+
+function setNmETypeFromSelect(type){curNmEType=type;popEntityDrop(type);}
+
+function setNmType(btn,type){
+  curNmType=type;
+  btn.closest(".pills").querySelectorAll(".pill").forEach(p=>p.classList.remove("sel"));
+  btn.classList.add("sel");
+  document.getElementById("nmFuGrp").style.display=type==="followup"?"block":"none";
+  document.getElementById("nmBkGrp").style.display=["quote","followup","loads","order"].includes(type)?"block":"none";
+}
+
+function popEntityDrop(type){
+  const arr=type==="customer"?db.customers:db.suppliers;
+  document.getElementById("nmEId").innerHTML=`<option value="">— Select ${type} —</option>`+arr.map(e=>`<option value="${e.id}">${e.name}</option>`).join("");
+}
+
+function saveNote(){
+  const eId=document.getElementById("nmEId").value;
+  const text=document.getElementById("nmText").value.trim();
+  if(!eId||!text){alert("Please select an entity and add a note.");return;}
+  const editId=document.getElementById("nmEditId").value;
+  const nd={eId,eType:curNmEType,type:curNmType,text,species:document.getElementById("nmSpecies").value.trim(),bkRef:document.getElementById("nmBkRef").value.trim(),fuDate:document.getElementById("nmFuDate").value,date:editId?(db.notes.find(n=>n.id===editId)||{}).date||today():today()};
+  if(editId){const i=db.notes.findIndex(n=>n.id===editId);if(i>-1)db.notes[i]={...db.notes[i],...nd};}
+  else db.notes.push({id:"n"+Date.now(),...nd});
+  save();closeModal("noteModal");render();
+}
+
+function openEntityModal(eType,eId){
+  selPriority="none";
+  document.getElementById("emEditId").value=eId||"";
+  document.getElementById("emEType").value=eType;
+  const isCust=eType==="customer";
+  document.getElementById("emSpLbl").textContent=isCust?"Species Buying":"Primary Species";
+  document.getElementById("emSaveBtn").className=isCust?"sbtn tl":"sbtn";
+  document.getElementById("emDelWrap").innerHTML="";
+  if(eId){
+    const e=findE(eId,eType);if(!e)return;
+    document.getElementById("emTitle").textContent=`Edit ${isCust?"Customer":"Supplier"}`;
+    document.getElementById("emSaveBtn").textContent="Save Changes";
+    document.getElementById("emName").value=e.name;
+    document.getElementById("emContact").value=e.contact||"";
+    document.getElementById("emPhone").value=e.phone||"";
+    document.getElementById("emEmail").value=e.email||"";
+    document.getElementById("emLocation").value=e.location||"";
+    document.getElementById("emSpecies").value=e.species||"";
+    document.getElementById("emNotes").value=e.notes||"";
+    selPriority=e.priority||"none";
+    document.getElementById("emDelWrap").innerHTML=`<button class="dbtn" id="delBtn1" onclick="showConfirmDel('${eId}','${eType}')">🗑 Delete This ${isCust?"Customer":"Supplier"}</button>`;
+  }else{
+    document.getElementById("emTitle").textContent=`New ${isCust?"Customer":"Supplier"}`;
+    document.getElementById("emSaveBtn").textContent=`Add ${isCust?"Customer":"Supplier"}`;
+    ["emName","emContact","emPhone","emEmail","emLocation","emSpecies","emNotes"].forEach(id=>document.getElementById(id).value="");
+  }
+  document.querySelectorAll(".psw").forEach(s=>s.classList.toggle("sel",s.dataset.p===selPriority));
+  document.getElementById("priLbl").textContent=PL[selPriority];
+  openModal("entityModal");
+}
+
+function showConfirmDel(eId,eType){
+  document.getElementById("emDelWrap").innerHTML=`<div class="confirm-row"><button class="yes" onclick="doDeleteEntity('${eId}','${eType}')">⚠️ Yes, Delete</button><button class="no" onclick="openEntityModal('${eType}','${eId}')">Cancel</button></div>`;
+}
+
+function doDeleteEntity(eId,eType){
+  if(eType==="customer")db.customers=db.customers.filter(e=>e.id!==eId);
+  else db.suppliers=db.suppliers.filter(e=>e.id!==eId);
+  db.notes=db.notes.filter(n=>n.eId!==eId);
+  save();closeModal("entityModal");render();
+}
+
+function saveEntity(){
+  const name=document.getElementById("emName").value.trim();
+  if(!name){alert("Please enter a name.");return;}
+  const eType=document.getElementById("emEType").value;
+  const editId=document.getElementById("emEditId").value;
+  const isCust=eType==="customer";
+  const data={name,contact:document.getElementById("emContact").value.trim(),phone:document.getElementById("emPhone").value.trim(),email:document.getElementById("emEmail").value.trim(),location:document.getElementById("emLocation").value.trim(),species:document.getElementById("emSpecies").value.trim(),notes:document.getElementById("emNotes").value.trim(),priority:selPriority};
+  const arr=isCust?db.customers:db.suppliers;
+  if(editId){const i=arr.findIndex(e=>e.id===editId);if(i>-1)arr[i]={...arr[i],...data};}
+  else arr.push({id:(isCust?"c":"s")+Date.now(),added:today(),...data});
+  save();closeModal("entityModal");render();
+}
+
+function selPri(el){
+  selPriority=el.dataset.p;
+  document.querySelectorAll(".psw").forEach(s=>s.classList.toggle("sel",s.dataset.p===selPriority));
+  document.getElementById("priLbl").textContent=PL[selPriority];
+}
+
+function switchMain(tab,btn){
+  curMain=tab;
+  document.querySelectorAll(".mtab").forEach(t=>t.classList.remove("act"));
+  btn.classList.add("act");
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("act"));
+  document.getElementById("view-"+tab).classList.add("act");
+  document.getElementById("subTabs").style.display=(tab==="suppliers"||tab==="customers")?"flex":"none";
+  curSub="all";document.querySelectorAll(".stab").forEach((t,i)=>t.classList.toggle("act",i===0));
+  render();
+}
+function switchSub(sub,btn){curSub=sub;document.querySelectorAll(".stab").forEach(t=>t.classList.remove("act"));btn.classList.add("act");render();}
+function filterQ(v){curQ=v;render();}
+function toggleQ(){document.getElementById("qMenu").classList.toggle("open");document.getElementById("qOv").classList.toggle("open");}
+function closeQ(){document.getElementById("qMenu").classList.remove("open");document.getElementById("qOv").classList.remove("open");}
+function openModal(id){document.getElementById(id).classList.add("open");}
+function closeModal(id){document.getElementById(id).classList.remove("open");}
+document.querySelectorAll(".ov").forEach(el=>el.addEventListener("click",e=>{if(e.target===el)el.classList.remove("open");}));
+
+function sendNoteText(nid,eId,eType){
+  const n=db.notes.find(x=>x.id===nid);const e=findE(eId,eType);
+  if(!n||!e||!e.phone)return;
+  const msg=encodeURIComponent(n.text+(n.species?" ["+n.species+"]":"")+(n.bkRef?" Ref:"+n.bkRef:""));
+  window.location="sms:"+e.phone+"&body="+msg;
+}
+function sendNoteEmail(nid,eId,eType){
+  const n=db.notes.find(x=>x.id===nid);const e=findE(eId,eType);
+  if(!n||!e||!e.email)return;
+  const subj=encodeURIComponent("YardLog"+(n.bkRef?" - "+n.bkRef:"")+" - "+e.name);
+  const body=encodeURIComponent(n.text+(n.species?" | Species: "+n.species:"")+(n.fuDate?" | Follow-up: "+n.fuDate:"")+" | Sent from YardLog");
+  window.location="mailto:"+e.email+"?subject="+subj+"&body="+body;
+}
+
+function exportBackup(){
+  const data=JSON.stringify(db,null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="yardlog-backup-"+new Date().toISOString().slice(0,10)+".json";
+  a.click();URL.revokeObjectURL(url);
+  closeModal("backupModal");
+}
+function importBackup(){document.getElementById("importFile").click();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const parsed=JSON.parse(ev.target.result);
+      if(!parsed.suppliers||!parsed.customers||!parsed.notes){alert("Invalid backup file.");return;}
+      if(!parsed.bookings)parsed.bookings=[];
+      db=parsed;save();render();
+      closeModal("backupModal");
+      document.getElementById("importStatus").textContent="Restored: "+parsed.suppliers.length+" suppliers, "+parsed.customers.length+" customers, "+parsed.notes.length+" notes, "+parsed.bookings.length+" bookings.";
+    }catch(err){alert("Could not read file.");}
+  };
+  reader.readAsText(file);
+}
+
+render();
+</script>
+</body>
+</html>
