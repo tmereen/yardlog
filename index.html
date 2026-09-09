@@ -18,10 +18,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
 .logo span{color:var(--sage);}
 .logo-sub{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-top:1px;}
 .add-btn{width:34px;height:34px;border-radius:50%;background:var(--amber);border:none;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(201,125,46,0.4);flex-shrink:0;}
-.main-tabs{display:flex;gap:3px;}
-.mtab{flex:1;padding:7px 2px;border:none;border-radius:8px 8px 0 0;background:transparent;color:var(--muted);font-family:inherit;font-size:10px;font-weight:600;cursor:pointer;}
+.main-tabs{display:flex;gap:2px;}
+.mtab{flex:1;padding:7px 1px;border:none;border-radius:8px 8px 0 0;background:transparent;color:var(--muted);font-family:inherit;font-size:9px;font-weight:600;cursor:pointer;}
 .mtab.act{background:var(--forest);color:var(--al);}
 .mtab.act.ct{color:var(--tl);}
+.mtab.act.td{color:#f0b0f0;}
 .sub-tabs{display:flex;gap:4px;padding:6px 0 0;border-bottom:1px solid rgba(255,255,255,0.06);}
 .stab{flex:1;padding:5px 4px;border:none;border-radius:6px 6px 0 0;background:transparent;color:var(--muted);font-family:inherit;font-size:10px;font-weight:500;cursor:pointer;}
 .stab.act{background:rgba(255,255,255,0.06);color:var(--cream);}
@@ -35,6 +36,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
 .sbox{flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:6px 4px;text-align:center;border:1px solid rgba(255,255,255,0.07);}
 .snum{font-family:'Playfair Display',serif;font-size:18px;color:var(--al);}
 .snum.tl{color:var(--tl);}
+.snum.td{color:#f0b0f0;}
 .slbl{font-size:10px;color:#c0b8a8;margin-top:1px;}
 .card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;border-left:4px solid var(--pn);}
 .card.pn{border-left-color:var(--pn);}.card.pr{border-left-color:var(--pr);}.card.po{border-left-color:var(--po);}.card.py{border-left-color:var(--py);}.card.pg{border-left-color:var(--pg);}.card.pb{border-left-color:var(--pb);}.card.pp{border-left-color:var(--pp);}
@@ -86,6 +88,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
 .pill.sel{background:var(--amber);border-color:var(--amber);color:white;}
 .sbtn{width:calc(100% - 40px);margin:18px 20px 0;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--amber),var(--al));color:white;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;display:block;}
 .sbtn.tl{background:linear-gradient(135deg,var(--teal),var(--tl));}
+.sbtn.td{background:linear-gradient(135deg,#8040a0,#c070e0);}
 .dbtn{width:calc(100% - 40px);margin:10px 20px 0;padding:13px;border-radius:12px;border:1px solid rgba(168,76,42,0.4);background:rgba(168,76,42,0.1);color:#e07a5a;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;display:block;}
 .confirm-row{display:flex;gap:8px;margin:10px 20px 0;}
 .confirm-row button{flex:1;padding:13px;border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;}
@@ -124,9 +127,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
 .eicon{font-size:40px;margin-bottom:12px;}
 .etxt{font-size:14px;line-height:1.5;}
 .bk-new-btn{width:100%;padding:14px;border-radius:12px;border:1px dashed rgba(201,125,46,0.4);background:rgba(201,125,46,0.07);color:var(--al);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:14px;}
-
-/* Offline banner */
 .offline-note{background:rgba(42,122,122,0.15);border:1px solid rgba(90,208,208,0.2);border-radius:10px;padding:10px 14px;margin:8px 0 4px;font-size:12px;color:var(--tl);text-align:center;line-height:1.5;}
+/* TO DO styles */
+.td-new-btn{width:100%;padding:14px;border-radius:12px;border:1px dashed rgba(192,112,224,0.4);background:rgba(128,64,160,0.07);color:#c070e0;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:14px;}
+.td-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;}
+.td-item.done{opacity:0.45;}
+.td-check{width:22px;height:22px;border-radius:50%;border:2px solid rgba(192,112,224,0.5);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;}
+.td-check.checked{background:#8040a0;border-color:#8040a0;}
+.td-check.checked::after{content:"✓";color:white;font-size:12px;font-weight:700;}
+.td-body{flex:1;}
+.td-text{font-size:14px;color:var(--cream);line-height:1.45;}
+.td-item.done .td-text{text-decoration:line-through;color:var(--muted);}
+.td-link{font-size:11px;color:#c070e0;margin-top:3px;}
+.td-date{font-size:11px;color:var(--muted);margin-top:3px;}
+.td-acts{display:flex;gap:6px;margin-top:7px;}
+.td-section-lbl{font-size:11px;color:#c070e0;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:8px 0 4px;border-bottom:1px solid rgba(192,112,224,0.15);margin-bottom:8px;}
 </style>
 </head>
 <body>
@@ -137,10 +152,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
     <button class="add-btn" onclick="toggleQ()">+</button>
   </div>
   <div class="main-tabs">
-    <button class="mtab act" id="mt-suppliers" onclick="switchMain('suppliers',this)">🌲 Suppliers</button>
+    <button class="mtab act" id="mt-suppliers" onclick="switchMain('suppliers',this)">🌲 Supply</button>
     <button class="mtab ct" id="mt-customers" onclick="switchMain('customers',this)">🤝 Customers</button>
     <button class="mtab" id="mt-timeline" onclick="switchMain('timeline',this)">📋 Timeline</button>
     <button class="mtab" id="mt-bookings" onclick="switchMain('bookings',this)">📦 Bookings</button>
+    <button class="mtab td" id="mt-todos" onclick="switchMain('todos',this)">☑️ To Do</button>
   </div>
   <div class="sub-tabs" id="subTabs">
     <button class="stab act" onclick="switchSub('all',this)">All</button>
@@ -156,23 +172,47 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
     <div class="sbox"><div class="snum" id="stA">0</div><div class="slbl">Suppliers</div></div>
     <div class="sbox"><div class="snum tl" id="stB">0</div><div class="slbl">Customers</div></div>
     <div class="sbox"><div class="snum" id="stC">0</div><div class="slbl">Notes</div></div>
-    <div class="sbox"><div class="snum" id="stD">0</div><div class="slbl">Follow-ups</div></div>
+    <div class="sbox"><div class="snum td" id="stD">0</div><div class="slbl">To Do</div></div>
   </div>
   <div class="view act" id="view-suppliers"><div id="supList"></div></div>
   <div class="view" id="view-customers"><div id="custList"></div></div>
   <div class="view" id="view-timeline"><div id="tlList"></div></div>
   <div class="view" id="view-bookings"><div id="bkList"></div></div>
+  <div class="view" id="view-todos"><div id="tdList"></div></div>
 </div>
 
 <!-- Quick menu overlay -->
 <div class="qov" id="qOv" onclick="closeQ()"></div>
 <div class="qmenu" id="qMenu">
+  <div class="qi" onclick="closeQ();openTodoModal()">☑️ New To Do</div>
   <div class="qi" onclick="closeQ();openNoteModal(null,'supplier')">📝 Note for Supplier</div>
   <div class="qi" onclick="closeQ();openNoteModal(null,'customer')">📝 Note for Customer</div>
   <div class="qi" onclick="closeQ();openEntityModal('supplier')">🌲 New Supplier</div>
   <div class="qi" onclick="closeQ();openEntityModal('customer')">🤝 New Customer</div>
   <div class="qi" onclick="closeQ();openBookingModal()">📦 New Booking</div>
   <div class="qi" onclick="closeQ();openModal('backupModal')">💾 Backup / Restore</div>
+</div>
+
+<!-- To Do Modal -->
+<div class="ov" id="todoModal">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('todoModal')">×</button>
+    <div class="mhandle"></div>
+    <div class="mtitle" id="tdmTitle">New To Do</div>
+    <input type="hidden" id="tdmEditId">
+    <div class="fg">
+      <label class="fl">Task</label>
+      <textarea class="fta" id="tdmText" placeholder="What needs to be done…" style="min-height:70px"></textarea>
+    </div>
+    <div class="fg">
+      <label class="fl">Linked to (optional)</label>
+      <select class="fs" id="tdmLink">
+        <option value="">— No link —</option>
+      </select>
+    </div>
+    <button class="sbtn td" onclick="saveTodo()">Save Task</button>
+    <div id="tdmDelWrap"></div>
+  </div>
 </div>
 
 <!-- Note Modal -->
@@ -306,7 +346,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream
     <div class="mtitle">💾 Backup &amp; Restore</div>
     <div class="fg" style="color:var(--cream);font-size:13px;line-height:1.6">
       <p style="margin-bottom:8px">Your data saves automatically on this device. Use backup to protect your data or move it to a new device.</p>
-      <div class="offline-note">📱 This app works 100% offline — no internet needed. All data stays on your device.</div>
+      <div class="offline-note">📱 All data stays on your device.</div>
     </div>
     <div class="fg">
       <label class="fl">Export — Save your data</label>
@@ -326,12 +366,19 @@ const PC={none:"#4a6741",red:"#c0392b",orange:"#e67e22",yellow:"#d4a017",green:"
 const PL={none:"None (default)",red:"🔴 Hot / Urgent",orange:"🟠 High Priority",yellow:"🟡 Watch / Caution",green:"🟢 Active / Good Standing",blue:"🔵 New / Prospect",purple:"🟣 VIP / Key Account"};
 const TL={note:{cls:"tn",lbl:"📝 Note"},followup:{cls:"tf",lbl:"🔔 Follow-up"},quote:{cls:"tq",lbl:"💰 Quote"},loads:{cls:"to",lbl:"🌲 Loads Available"},order:{cls:"to",lbl:"🌲 Loads Available"}};
 
-let db=JSON.parse(localStorage.getItem("ylv3")||"null")||{suppliers:[],customers:[],bookings:[],notes:[]};
+let db=JSON.parse(localStorage.getItem("ylv4")||"null")||{suppliers:[],customers:[],bookings:[],notes:[],todos:[]};
 if(!db.bookings)db.bookings=[];
+if(!db.todos)db.todos=[];
+
+// Migrate from old storage key
+if(!localStorage.getItem("ylv4")&&localStorage.getItem("ylv3")){
+  const old=JSON.parse(localStorage.getItem("ylv3"));
+  if(old){db={...old,todos:[]};localStorage.setItem("ylv4",JSON.stringify(db));}
+}
 
 let curMain="suppliers",curSub="all",curQ="",selPriority="none",curNmType="note",curNmEType="supplier";
 
-function save(){localStorage.setItem("ylv3",JSON.stringify(db));}
+function save(){localStorage.setItem("ylv4",JSON.stringify(db));}
 function findE(id,type){return(type==="customer"?db.customers:db.suppliers).find(e=>e.id===id);}
 function today(){return new Date().toISOString().slice(0,10);}
 function fuStatus(eId){
@@ -349,20 +396,26 @@ function fmtDate(iso){
   return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
 }
 
+function allEntities(){
+  const sups=db.suppliers.map(e=>({id:e.id,name:e.name,type:"supplier"}));
+  const custs=db.customers.map(e=>({id:e.id,name:e.name,type:"customer"}));
+  return[...sups,...custs].sort((a,b)=>a.name.localeCompare(b.name));
+}
+
 function render(){
   updateStats();
   if(curMain==="suppliers")renderList("supplier");
   else if(curMain==="customers")renderList("customer");
   else if(curMain==="timeline")renderTimeline();
+  else if(curMain==="todos")renderTodos();
   else renderBookings();
 }
 
 function updateStats(){
-  const t=today();
   document.getElementById("stA").textContent=db.suppliers.length;
   document.getElementById("stB").textContent=db.customers.length;
   document.getElementById("stC").textContent=db.notes.length;
-  document.getElementById("stD").textContent=db.notes.filter(n=>n.fuDate&&n.fuDate>=t).length;
+  document.getElementById("stD").textContent=db.todos.filter(t=>!t.done).length;
 }
 
 function getLastNoteDate(eId){
@@ -385,10 +438,11 @@ function renderList(type){
     const fu=fuStatus(e.id);
     const pri=e.priority||"none";
     const tags=(e.species||"").split(",").filter(Boolean).slice(0,3).map(t=>`<span class="tag${isCust?" ct":""}">${t.trim()}</span>`).join("");
+    const openTodos=db.todos.filter(t=>t.linkedId===e.id&&!t.done).length;
     return`<div class="card p${pri}" onclick="openDetail('${e.id}','${type}')">
       <div class="crow"><div class="cname">${e.name}</div><div class="cbadges">${fu==="overdue"?'<span class="bovd">OVERDUE</span>':fu==="due"?'<span class="bdue">FOLLOW-UP</span>':""}<div class="pdot" style="background:${PC[pri]}"></div></div></div>
       <div class="cmeta">${e.contact}${e.location?" · "+e.location:""}</div>
-      <div class="cfoot"><div class="ncnt">${ns.length} note${ns.length!==1?"s":""}</div><div class="tags">${tags}</div></div>
+      <div class="cfoot"><div class="ncnt">${ns.length} note${ns.length!==1?"s":""}${openTodos>0?` · <span style="color:#c070e0">${openTodos} task${openTodos!==1?"s":""}</span>`:""}</div><div class="tags">${tags}</div></div>
     </div>`;
   }).join("");
 }
@@ -435,6 +489,70 @@ function renderBookings(){
   }).join("");
 }
 
+function renderTodos(){
+  const el=document.getElementById("tdList");
+  let todos=[...db.todos];
+  if(curQ){const lq=curQ.toLowerCase();todos=todos.filter(t=>t.text.toLowerCase().includes(lq)||(t.linkedName||"").toLowerCase().includes(lq));}
+  const open=todos.filter(t=>!t.done);
+  const done=todos.filter(t=>t.done);
+  const addBtn=`<button class="td-new-btn" onclick="openTodoModal()">☑️ + New Task</button>`;
+  if(!todos.length){el.innerHTML=addBtn+`<div class="empty"><div class="eicon">☑️</div><div class="etxt">No tasks yet.<br>Tap above to add one.</div></div>`;return;}
+  const renderItem=t=>`<div class="td-item${t.done?" done":""}" id="tdi-${t.id}">
+    <div class="td-check${t.done?" checked":""}" onclick="toggleTodo('${t.id}')"></div>
+    <div class="td-body">
+      <div class="td-text">${t.text}</div>
+      ${t.linkedName?`<div class="td-link">🔗 ${t.linkedName}</div>`:""}
+      <div class="td-date">${fmtDate(t.date)}</div>
+      <div class="td-acts">
+        <button class="nedit" onclick="openTodoModal('${t.id}')">✏️ Edit</button>
+        <button class="ndel" onclick="deleteTodo('${t.id}')">🗑 Delete</button>
+      </div>
+    </div>
+  </div>`;
+  el.innerHTML=addBtn+
+    (open.length?`<div class="td-section-lbl">Open — ${open.length} task${open.length!==1?"s":""}</div>`+open.map(renderItem).join(""):"")+(done.length?`<div class="td-section-lbl" style="margin-top:14px">Done — ${done.length}</div>`+done.map(renderItem).join(""):"");
+}
+
+function toggleTodo(id){
+  const t=db.todos.find(x=>x.id===id);if(!t)return;
+  t.done=!t.done;save();render();
+}
+
+function deleteTodo(id){
+  db.todos=db.todos.filter(t=>t.id!==id);save();render();
+}
+
+function openTodoModal(editId){
+  const t=editId?db.todos.find(x=>x.id===editId):null;
+  document.getElementById("tdmEditId").value=editId||"";
+  document.getElementById("tdmTitle").textContent=t?"Edit Task":"New To Do";
+  document.getElementById("tdmText").value=t?t.text:"";
+  // Populate link dropdown
+  const all=allEntities();
+  document.getElementById("tdmLink").innerHTML=`<option value="">— No link —</option>`+
+    all.map(e=>`<option value="${e.id}" data-name="${e.name}" data-type="${e.type}">${e.type==="supplier"?"🌲":"🤝"} ${e.name}</option>`).join("");
+  if(t&&t.linkedId)document.getElementById("tdmLink").value=t.linkedId;
+  document.getElementById("tdmDelWrap").innerHTML=editId?`<button class="dbtn" onclick="deleteTodo('${editId}');closeModal('todoModal')">🗑 Delete Task</button>`:"";
+  openModal("todoModal");
+}
+
+function saveTodo(){
+  const text=document.getElementById("tdmText").value.trim();
+  if(!text){alert("Please enter a task.");return;}
+  const editId=document.getElementById("tdmEditId").value;
+  const sel=document.getElementById("tdmLink");
+  const linkedId=sel.value||"";
+  const linkedName=linkedId?(sel.options[sel.selectedIndex].dataset.name||""):"";
+  const data={text,linkedId,linkedName,date:today()};
+  if(editId){
+    const i=db.todos.findIndex(t=>t.id===editId);
+    if(i>-1)db.todos[i]={...db.todos[i],...data};
+  }else{
+    db.todos.push({id:"t"+Date.now(),done:false,...data});
+  }
+  save();closeModal("todoModal");render();
+}
+
 function openBookingModal(bkId){
   const b=bkId?(db.bookings||[]).find(x=>x.id===bkId):null;
   document.getElementById("bmEditId").value=bkId||"";
@@ -455,12 +573,10 @@ function openBookingModal(bkId){
   document.getElementById("bmDelWrap").innerHTML=bkId?`<button class="dbtn" onclick="confirmDeleteBooking('${bkId}')">🗑 Delete This Booking</button>`:"";
   openModal("bookingModal");
 }
-
 function confirmDeleteBooking(bkId){
   document.getElementById("bmDelWrap").innerHTML=`<div class="confirm-row"><button class="yes" onclick="doDeleteBooking('${bkId}')">⚠️ Yes, Delete</button><button class="no" onclick="openBookingModal('${bkId}')">Cancel</button></div>`;
 }
 function doDeleteBooking(bkId){db.bookings=db.bookings.filter(b=>b.id!==bkId);save();closeModal("bookingModal");render();}
-
 function saveBooking(){
   const ref=document.getElementById("bmRef").value.trim();
   if(!ref){alert("Please enter a Booking Reference number.");return;}
@@ -470,7 +586,6 @@ function saveBooking(){
   else{data.date=today();db.bookings.push({id:"b"+Date.now(),...data});}
   save();closeModal("bookingModal");render();
 }
-
 function openBookingDetail(bkId){
   const b=(db.bookings||[]).find(x=>x.id===bkId);if(!b)return;
   const sc=b.status==="complete"?"var(--pg)":b.status==="inprogress"?"var(--po)":"var(--pb)";
@@ -488,10 +603,10 @@ function openBookingDetail(bkId){
   document.getElementById("detNotes").innerHTML="";
   openModal("detailModal");
 }
-
 function openDetail(eId,eType){
   const e=findE(eId,eType);if(!e)return;
   const ns=db.notes.filter(n=>n.eId===eId).sort((a,b)=>b.date.localeCompare(a.date));
+  const openTodos=db.todos.filter(t=>t.linkedId===eId&&!t.done);
   const pri=e.priority||"none";const isCust=eType==="customer";
   document.getElementById("detHdr").innerHTML=`
     <div class="det-name"><div class="ddot" style="background:${PC[pri]}"></div>${e.name}</div>
@@ -501,12 +616,19 @@ function openDetail(eId,eType){
     ${e.notes?`<div class="det-meta" style="font-style:italic;margin-top:3px">${e.notes}</div>`:""}
     <div class="det-acts">
       <button class="abtn pri" onclick="closeModal('detailModal');openNoteModal('${eId}','${eType}')">+ Note</button>
+      <button class="abtn" onclick="closeModal('detailModal');openTodoModal();document.getElementById('tdmLink').value='${eId}'">+ Task</button>
       <button class="abtn" onclick="closeModal('detailModal');openEntityModal('${eType}','${eId}')">✏️ Edit</button>
       ${e.phone?`<button class="abtn" onclick="window.location='tel:${e.phone}'">📞 Call</button>`:""}
-      ${e.phone?`<button class="abtn" onclick="window.location='sms:${e.phone}'">💬 Text</button>`:""}
       ${e.email?`<button class="abtn" onclick="window.location='mailto:${e.email}'">📧 Email</button>`:""}
     </div>`;
-  document.getElementById("detNotes").innerHTML=`<div class="ntitle">${ns.length} Activit${ns.length!==1?"ies":"y"}</div>`+
+  const tdHtml=openTodos.length?`<div class="td-section-lbl" style="margin:0 0 8px">☑️ Open Tasks</div>`+
+    openTodos.map(t=>`<div class="td-item" style="margin-bottom:6px">
+      <div class="td-check" onclick="toggleTodo('${t.id}');closeModal('detailModal');setTimeout(()=>openDetail('${eId}','${eType}'),120)"></div>
+      <div class="td-body"><div class="td-text">${t.text}</div></div>
+    </div>`).join(""):"";
+  document.getElementById("detNotes").innerHTML=
+    (tdHtml?`<div style="padding:14px 20px 0">${tdHtml}</div>`:"")+
+    `<div class="nsec"><div class="ntitle">${ns.length} Activit${ns.length!==1?"ies":"y"}</div>`+
     (ns.length===0?'<div style="color:var(--muted);font-size:13px">No notes yet.</div>':
     ns.map(n=>{
       const t=TL[n.type]||TL.note;
@@ -518,17 +640,14 @@ function openDetail(eId,eType){
         ${n.species?`<div style="font-size:11px;color:var(--sage);margin-top:4px">${n.species}</div>`:""}
         <div class="nacts">
           <button class="nedit" onclick="editNote('${n.id}')">✏️ Edit</button>
-          ${e.phone?`<button class="nedit" onclick="sendNoteText('${n.id}','${eId}','${eType}')">💬 Text</button>`:""}
           ${e.email?`<button class="nedit" onclick="sendNoteEmail('${n.id}','${eId}','${eType}')">📧 Email</button>`:""}
           <button class="ndel" onclick="deleteNote('${n.id}','${eId}','${eType}')">🗑 Delete</button>
         </div>
       </div>`;
-    }).join(""));
+    }).join(""))+"</div>";
   openModal("detailModal");
 }
-
 function deleteNote(nid,eId,eType){db.notes=db.notes.filter(n=>n.id!==nid);save();closeModal("detailModal");render();setTimeout(()=>openDetail(eId,eType),120);}
-
 function editNote(nid){
   const n=db.notes.find(x=>x.id===nid);if(!n)return;
   closeModal("detailModal");
@@ -549,7 +668,6 @@ function editNote(nid){
   document.getElementById("nmFuGrp").style.display=n.type==="followup"?"block":"none";
   document.getElementById("nmBkGrp").style.display=["quote","followup","loads","order"].includes(n.type)?"block":"none";
 }
-
 function openNoteModal(eId,eType){
   curNmEType=eType||"supplier";curNmType="note";
   document.getElementById("nmEditId").value="";
@@ -567,9 +685,7 @@ function openNoteModal(eId,eType){
   if(eId)document.getElementById("nmEId").value=eId;
   openModal("noteModal");
 }
-
 function setNmETypeFromSelect(type){curNmEType=type;popEntityDrop(type);}
-
 function setNmType(btn,type){
   curNmType=type;
   btn.closest(".pills").querySelectorAll(".pill").forEach(p=>p.classList.remove("sel"));
@@ -577,12 +693,10 @@ function setNmType(btn,type){
   document.getElementById("nmFuGrp").style.display=type==="followup"?"block":"none";
   document.getElementById("nmBkGrp").style.display=["quote","followup","loads","order"].includes(type)?"block":"none";
 }
-
 function popEntityDrop(type){
   const arr=type==="customer"?db.customers:db.suppliers;
   document.getElementById("nmEId").innerHTML=`<option value="">— Select ${type} —</option>`+arr.map(e=>`<option value="${e.id}">${e.name}</option>`).join("");
 }
-
 function saveNote(){
   const eId=document.getElementById("nmEId").value;
   const text=document.getElementById("nmText").value.trim();
@@ -593,7 +707,6 @@ function saveNote(){
   else db.notes.push({id:"n"+Date.now(),...nd});
   save();closeModal("noteModal");render();
 }
-
 function openEntityModal(eType,eId){
   selPriority="none";
   document.getElementById("emEditId").value=eId||"";
@@ -624,18 +737,16 @@ function openEntityModal(eType,eId){
   document.getElementById("priLbl").textContent=PL[selPriority];
   openModal("entityModal");
 }
-
 function showConfirmDel(eId,eType){
   document.getElementById("emDelWrap").innerHTML=`<div class="confirm-row"><button class="yes" onclick="doDeleteEntity('${eId}','${eType}')">⚠️ Yes, Delete</button><button class="no" onclick="openEntityModal('${eType}','${eId}')">Cancel</button></div>`;
 }
-
 function doDeleteEntity(eId,eType){
   if(eType==="customer")db.customers=db.customers.filter(e=>e.id!==eId);
   else db.suppliers=db.suppliers.filter(e=>e.id!==eId);
   db.notes=db.notes.filter(n=>n.eId!==eId);
+  db.todos=db.todos.filter(t=>t.linkedId!==eId);
   save();closeModal("entityModal");render();
 }
-
 function saveEntity(){
   const name=document.getElementById("emName").value.trim();
   if(!name){alert("Please enter a name.");return;}
@@ -648,13 +759,11 @@ function saveEntity(){
   else arr.push({id:(isCust?"c":"s")+Date.now(),added:today(),...data});
   save();closeModal("entityModal");render();
 }
-
 function selPri(el){
   selPriority=el.dataset.p;
   document.querySelectorAll(".psw").forEach(s=>s.classList.toggle("sel",s.dataset.p===selPriority));
   document.getElementById("priLbl").textContent=PL[selPriority];
 }
-
 function switchMain(tab,btn){
   curMain=tab;
   document.querySelectorAll(".mtab").forEach(t=>t.classList.remove("act"));
@@ -672,13 +781,6 @@ function closeQ(){document.getElementById("qMenu").classList.remove("open");docu
 function openModal(id){document.getElementById(id).classList.add("open");}
 function closeModal(id){document.getElementById(id).classList.remove("open");}
 document.querySelectorAll(".ov").forEach(el=>el.addEventListener("click",e=>{if(e.target===el)el.classList.remove("open");}));
-
-function sendNoteText(nid,eId,eType){
-  const n=db.notes.find(x=>x.id===nid);const e=findE(eId,eType);
-  if(!n||!e||!e.phone)return;
-  const msg=encodeURIComponent(n.text+(n.species?" ["+n.species+"]":"")+(n.bkRef?" Ref:"+n.bkRef:""));
-  window.location="sms:"+e.phone+"&body="+msg;
-}
 function sendNoteEmail(nid,eId,eType){
   const n=db.notes.find(x=>x.id===nid);const e=findE(eId,eType);
   if(!n||!e||!e.email)return;
@@ -686,7 +788,6 @@ function sendNoteEmail(nid,eId,eType){
   const body=encodeURIComponent(n.text+(n.species?" | Species: "+n.species:"")+(n.fuDate?" | Follow-up: "+n.fuDate:"")+" | Sent from YardLog");
   window.location="mailto:"+e.email+"?subject="+subj+"&body="+body;
 }
-
 function exportBackup(){
   const data=JSON.stringify(db,null,2);
   const blob=new Blob([data],{type:"application/json"});
@@ -705,14 +806,14 @@ function handleImport(e){
       const parsed=JSON.parse(ev.target.result);
       if(!parsed.suppliers||!parsed.customers||!parsed.notes){alert("Invalid backup file.");return;}
       if(!parsed.bookings)parsed.bookings=[];
+      if(!parsed.todos)parsed.todos=[];
       db=parsed;save();render();
       closeModal("backupModal");
-      document.getElementById("importStatus").textContent="Restored: "+parsed.suppliers.length+" suppliers, "+parsed.customers.length+" customers, "+parsed.notes.length+" notes, "+parsed.bookings.length+" bookings.";
+      document.getElementById("importStatus").textContent="Restored: "+parsed.suppliers.length+" suppliers, "+parsed.customers.length+" customers, "+parsed.notes.length+" notes.";
     }catch(err){alert("Could not read file.");}
   };
   reader.readAsText(file);
 }
-
 render();
 </script>
 </body>
